@@ -1,0 +1,22 @@
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "Values": {
+    "TwitchBot.ChannelName": "exmello",
+    //Convert your password to OAuth using this link: https://twitchapps.com/tmi/ and make a file called secrets.json containing {"Values": {"TwitchBot.OAuth": "<your oauth without oath infront>"}}
+    "TwitchBot.SecretsPath":  "D:\\secrets.json",
+    "TwitchBot.Nickame": "rizumubot",
+    "TwitchBot.BotName": "RizumuBot",
+    "TwitchBot.ChatServer": "irc.twitch.tv",
+    "TwitchBot.Port": "6667",
+    "TwitchBot.IgnoreSelf": "true",
+    "TwitchBot.OscServer": "127.0.0.1",
+    "TwitchBot.OscPort": "9000"
+  }
+}
