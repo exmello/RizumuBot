@@ -41,6 +41,16 @@ namespace RizumuBot
             return System.Text.Encoding.ASCII.GetString(data, 0, bytes);
         }
 
+        internal bool IsLoginSuccessful(string responseData)
+        {
+            if(responseData == ":tmi.twitch.tv NOTICE * :Login authentication failed")
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Read a response of an arbitrary length
         /// </summary>
@@ -66,7 +76,7 @@ namespace RizumuBot
             catch (Exception e)
             {
 
-                Console.WriteLine("Error reading message\r\n", e);
+                logger.Error("Error reading message\r\n", e);
             }
 
             return sbMessage.ToString();

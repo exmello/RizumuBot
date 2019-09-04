@@ -28,17 +28,24 @@
             using (TwitchChatConnection connection = new TwitchChatConnection(Config.ChatServer, Config.Port, Logger))
             {
                 // Send login request
-                Console.WriteLine("Sent login.\r\n");
+                Logger.Info("Sent login.\r\n");
                 string responseData = connection.SendLoginRequest(Config.OAuth, Config.Nickname);
-                Console.WriteLine("Received WELCOME: \r\n\r\n{0}", responseData);
+
+                if(!connection.IsLoginSuccessful(responseData))
+                {
+                    Logger.ErrorFormat("Failed to login {0}", responseData);
+                    return;
+                }
+
+                Logger.InfoFormat("Received WELCOME: \r\n\r\n{0}", responseData);
 
                 // send message to join channel
                 connection.JoinChannel(Config.ChannelName);
-                Console.WriteLine("Sent channel join.\r\n");
+                Logger.Info("Sent channel join.\r\n");
 
                 // subscribe to events
                 responseData = connection.SubcribeToMembershipEvents(Config.ChannelName);
-                Console.WriteLine("Subcribe to JOIN/PART: \r\n\r\n{0}", responseData);
+                Logger.InfoFormat("Subcribe to JOIN/PART: \r\n\r\n{0}", responseData);
 
                 //twitch JSON api for bots to use
                 //TwitchApiClient api = new TwitchApiClient();

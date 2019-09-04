@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using log4net;
 using OSCforPCL;
 using RizumuBot;
@@ -43,11 +44,17 @@ namespace RizumuBot.VRChat.OSC
         {
             if (command == VrcCameraCommands.None) return;
 
-            OSCMessage message = new OSCMessage($"riz/{command.ToString().ToLowerInvariant()}", 1.0f);
+            async Task sendMessage(float value)
+            {
+                OSCMessage message = new OSCMessage($"/riz/{command.ToString().ToLowerInvariant()}", value);
+                logger.Debug($"{nameof(VrcOscSender)}.{nameof(this.SendMessageAsync)}: {nameof(command)} {command}. Message: {Encoding.UTF8.GetString(message.Bytes)}");
+                await oscClient.Send(message);
+            }
 
-            logger.Debug($"{nameof(VrcOscSender)}.{nameof(this.SendMessageAsync)}: {nameof(command)} {command}. Message: {System.Text.Encoding.UTF8.GetString(message.Bytes)}");
-
-            await oscClient.Send(message);
+            
+            await sendMessage(1.0f); //on
+            await Task.Delay(1000);
+            await sendMessage(0.0f); //off
         }
 
         #region IDisposable Support
